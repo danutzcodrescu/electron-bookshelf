@@ -1,1 +1,2 @@
 webpack.*.js
+src/renderer/generated/graphql.ts

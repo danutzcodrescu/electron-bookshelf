@@ -25,13 +25,14 @@ const createWindow = async () => {
 
   if (process.env.NODE_ENV !== 'production') {
     process.env.ELECTRON_DISABLE_SECURITY_WARNINGS = '1'; // eslint-disable-line require-atomic-updates
-    win.loadURL(`http://localhost:2003`);
+    win.loadURL(`http://localhost:2003/#/books`);
   } else {
     win.loadURL(
       url.format({
         pathname: path.join(__dirname, 'index.html'),
         protocol: 'file:',
         slashes: true,
+        hash: '#/books',
       }),
     );
   }

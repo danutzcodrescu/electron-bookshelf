@@ -1,5 +1,4 @@
-overwrite: true
-schema: 'http://localhost:8080/v1/graphql',
+schema: 'http://localhost:8080/v1/graphql'
 documents: [./src/**/queries.ts, ./src/**/mutations.ts]
 generates:
   src/renderer/generated/graphql.ts:

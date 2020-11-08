@@ -58,5 +58,11 @@ export const theme = createMuiTheme({
     MuiButton: {
       variant: 'contained',
     },
+    MuiTextField: {
+      variant: 'outlined',
+      InputLabelProps: {
+        disableAnimation: true,
+      },
+    },
   },
 });

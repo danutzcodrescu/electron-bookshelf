@@ -69,21 +69,8 @@
     "react/jsx-indent": 0,
     "react/jsx-boolean-value": 0,
     "react/jsx-closing-tag-location": 0,
-    "react/jsx-closing-bracket-location": [
-      2,
-      {
-        "selfClosing": "props-aligned",
-        "nonEmpty": "after-props"
-      }
-    ],
     "react/prop-types": 0,
     "react/button-has-type": 0,
-    "react/jsx-tag-spacing": [
-      2,
-      {
-        "beforeSelfClosing": "always"
-      }
-    ],
     "react/jsx-one-expression-per-line": 0,
     "react/jsx-curly-spacing": 0,
     "react/no-access-state-in-setstate": 0,
@@ -107,6 +94,8 @@
     "@typescript-eslint/no-angle-bracket-type-assertion": 0,
     "@typescript-eslint/ban-ts-comment": 0,
     "no-use-before-define": "off",
-    "@typescript-eslint/no-use-before-define": ["error"]
+    "@typescript-eslint/no-use-before-define": ["error"],
+    "@typescript-eslint/explicit-module-boundary-types": "off",
+    "@typescript-eslint/ban-types": "warn"
   }
 }

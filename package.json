@@ -19,7 +19,7 @@
     "pack": "npm run build && electron-builder --dir",
     "dist": "npm run build && electron-builder",
     "postinstall": "electron-builder install-app-deps",
-    "schema-types": "graphql-codegen"
+    "schema-types": "cross-env DEBUG=1 graphql-codegen"
   },
   "husky": {
     "hooks": {
@@ -64,6 +64,9 @@
     "@babel/preset-env": "^7.12.1",
     "@babel/preset-react": "^7.12.5",
     "@babel/preset-typescript": "^7.12.1",
+    "@graphql-codegen/cli": "^1.19.1",
+    "@graphql-codegen/typescript": "^1.17.11",
+    "@graphql-codegen/typescript-operations": "^1.17.9",
     "@pmmmwh/react-refresh-webpack-plugin": "^0.4.3",
     "@types/electron-devtools-installer": "^2.2.0",
     "@types/react": "^16.9.56",
@@ -90,7 +93,6 @@
     "eslint-plugin-react-hooks": "^4.2.0",
     "file-loader": "^6.2.0",
     "fork-ts-checker-webpack-plugin": "^6.0.0",
-    "graphql-codegen": "^0.4.0",
     "html-webpack-plugin": "^4.5.0",
     "husky": "^4.3.0",
     "image-webpack-loader": "^7.0.1",
@@ -110,6 +112,7 @@
   "dependencies": {
     "@material-ui/core": "^4.11.0",
     "@material-ui/icons": "^4.9.1",
+    "graphql": "^15.4.0",
     "graphql-request": "^3.3.0",
     "react": "^17.0.1",
     "react-dom": "^17.0.1",
