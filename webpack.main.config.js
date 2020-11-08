@@ -1,44 +1,66 @@
 const path = require('path');
 const webpack = require('webpack');
-const merge = require('webpack-merge');
+const { merge } = require('webpack-merge');
 const ForkTsCheckerWebpackPlugin = require('fork-ts-checker-webpack-plugin');
+const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 
 const baseConfig = require('./webpack.base.config');
 
-module.exports = merge.smart(baseConfig, {
+module.exports = [
+  merge(baseConfig, {
     target: 'electron-main',
     entry: {
-        main: './src/main/main.ts'
+      main: './src/main/main.ts',
     },
     module: {
-        rules: [
-            {
-                test: /\.tsx?$/,
-                exclude: /node_modules/,
-                loader: 'babel-loader',
-                options: {
-                    cacheDirectory: true,
-                    babelrc: false,
-                    presets: [
-                        [
-                            '@babel/preset-env',
-                            { targets: 'maintained node versions' }
-                        ],
-                        '@babel/preset-typescript'
-                    ],
-                    plugins: [
-                        ['@babel/plugin-proposal-class-properties', { loose: true }]
-                    ]
-                }
-            }
-        ]
+      rules: [
+        {
+          test: /\.ts$/,
+          exclude: /node_modules/,
+          use: {
+            loader: 'babel-loader',
+            options: {
+              cacheDirectory: true,
+              babelrc: false,
+              presets: [['@babel/preset-env', { targets: { node: 'current' } }], '@babel/preset-typescript'],
+            },
+          },
+        },
+      ],
     },
     plugins: [
-        new ForkTsCheckerWebpackPlugin({
-            reportFiles: ['src/main/**/*']
-        }),
-        new webpack.DefinePlugin({
-            'process.env.NODE_ENV': JSON.stringify(process.env.NODE_ENV || 'development')
-        })
-    ]
-});
+      // new CleanWebpackPlugin({
+      //   cleanStaleWebpackAssets: true,
+      // }),
+      new ForkTsCheckerWebpackPlugin(),
+      new webpack.DefinePlugin({
+        'process.env.NODE_ENV': JSON.stringify(process.env.NODE_ENV || 'development'),
+      }),
+    ],
+  }),
+  merge(baseConfig, {
+    target: 'electron-preload',
+    entry: {
+      inject: './src/main/preload.ts',
+    },
+    module: {
+      rules: [
+        {
+          test: /\.ts$/,
+          exclude: /node_modules/,
+          use: {
+            loader: 'babel-loader',
+            options: {
+              cacheDirectory: true,
+              babelrc: false,
+              presets: [
+                ['@babel/preset-env', { targets: { browsers: 'last 1 Chrome version' } }],
+                '@babel/preset-typescript',
+              ],
+            },
+          },
+        },
+      ],
+    },
+  }),
+];

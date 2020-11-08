@@ -1,0 +1,13 @@
+overwrite: true
+schema: 'http://localhost:8080/v1/graphql',
+documents: [./src/**/queries.ts, ./src/**/mutations.ts]
+generates:
+  src/renderer/generated/graphql.ts:
+    plugins:
+      - 'typescript'
+      - 'typescript-operations'
+    config:
+      declarationKind: 'interface'
+hooks:
+  afterOneFileWrite:
+    - prettier --write

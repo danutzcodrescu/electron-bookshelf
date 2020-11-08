@@ -1,4 +1,13 @@
 {
+  "parser": "@typescript-eslint/parser",
+  "parserOptions": {
+    "ecmaFeatures": {
+      "jsx": true
+    },
+    "ecmaVersion": 2020,
+    "sourceType": "module",
+    "project": "./tsconfig.json"
+  },
   "env": {
     "browser": true,
     "es6": true,
@@ -7,35 +16,31 @@
   },
   "extends": [
     "airbnb",
-    "eslint:recommended",
     "plugin:import/recommended",
     "plugin:import/typescript",
     "plugin:import/electron",
     "plugin:react/recommended",
-    "plugin:@typescript-eslint/eslint-recommended",
     "plugin:@typescript-eslint/recommended",
-    "prettier",
-    "prettier/react",
-    "prettier/@typescript-eslint"
+    "plugin:react/recommended",
+    "plugin:prettier/recommended"
   ],
+  "plugins": ["react-hooks"],
   "globals": {
     "Atomics": "readonly",
     "SharedArrayBuffer": "readonly"
   },
-  "parser": "@typescript-eslint/parser",
-  "parserOptions": {
-    "ecmaFeatures": {
-      "jsx": true
+  "settings": {
+    "react": {
+      "version": "detect"
     },
-    "ecmaVersion": 2018,
-    "sourceType": "module",
-    "project": "./tsconfig.json"
+    "import/resolver": {
+      "node": {
+        "paths": ["src", "src/renderer", "src/main", "mocks"],
+        "extensions": [".js", ".jsx", ".ts", ".tsx"]
+      }
+    }
   },
-  "plugins": [
-    "react",
-    "prettier",
-    "@typescript-eslint"
-  ],
+
   "rules": {
     "global-require": 0,
     "import/prefer-default-export": 0,
@@ -95,11 +100,13 @@
     "@typescript-eslint/camelcase": 0,
     "@typescript-eslint/explicit-function-return-type": 0,
     "@typescript-eslint/no-non-null-assertion": 0,
-    "@typescript-eslint/no-use-before-define": 0,
     "@typescript-eslint/member-delimiter-style": 0,
     "@typescript-eslint/no-unused-vars": 0,
     "@typescript-eslint/no-explicit-any": 0,
     "@typescript-eslint/explicit-member-accessibility": 0,
-    "@typescript-eslint/no-angle-bracket-type-assertion": 0
+    "@typescript-eslint/no-angle-bracket-type-assertion": 0,
+    "@typescript-eslint/ban-ts-comment": 0,
+    "no-use-before-define": "off",
+    "@typescript-eslint/no-use-before-define": ["error"]
   }
 }
