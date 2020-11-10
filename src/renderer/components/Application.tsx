@@ -5,8 +5,9 @@ import { Books } from 'views/Books/Books';
 import { Welcome } from 'views/Welcome/Welcome';
 import { QueryCache, ReactQueryCacheProvider } from 'react-query';
 import { NewBook } from 'views/Books/NewBook';
-import { AuthorsList } from 'views/Authors/AuthorsList';
 import { NewAuthor } from 'views/Authors/NewAuthor';
+import { Authors } from 'views/Authors/Authors';
+import { ExportToPDF } from 'views/export/ExportToPDF';
 import { theme } from '../theme/index';
 import { Layout } from './Layout/Layout';
 
@@ -21,10 +22,11 @@ const Application = () => (
         <HashRouter>
           <Switch>
             <Route path="/welcome" component={Welcome} />
+            <Route path="/export" component={ExportToPDF} />
             <Layout>
               <Route path="/books" exact component={Books} />
               <Route path="/books/new" component={NewBook} />
-              <Route path="/authors" exact component={AuthorsList} />
+              <Route path="/authors" exact component={Authors} />
               <Route path="/authors/new" component={NewAuthor} />
             </Layout>
           </Switch>

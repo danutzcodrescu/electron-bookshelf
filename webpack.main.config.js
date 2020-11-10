@@ -23,6 +23,7 @@ module.exports = [
               cacheDirectory: true,
               babelrc: false,
               presets: [['@babel/preset-env', { targets: { node: 'current' } }], '@babel/preset-typescript'],
+              plugins: ['@babel/plugin-proposal-optional-chaining'],
             },
           },
         },
@@ -32,7 +33,7 @@ module.exports = [
       // new CleanWebpackPlugin({
       //   cleanStaleWebpackAssets: true,
       // }),
-      new ForkTsCheckerWebpackPlugin(),
+      new ForkTsCheckerWebpackPlugin({ typescript: { configOverwrite: { include: ['./src/main'] } } }),
       new webpack.DefinePlugin({
         'process.env.NODE_ENV': JSON.stringify(process.env.NODE_ENV || 'development'),
       }),

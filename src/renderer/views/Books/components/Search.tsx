@@ -62,7 +62,7 @@ export const Search = ({ onSearch, clear: clearInput, children, placeholder }: P
             : {})}
         />
       </form>
-      {children}
+      <Box display="flex">{children}</Box>
       <Divider className={classes.divider} />
     </Box>
   );

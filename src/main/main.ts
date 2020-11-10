@@ -1,6 +1,8 @@
 import { app, BrowserWindow } from 'electron';
 import * as path from 'path';
 import * as url from 'url';
+import { exportToPDF } from './exportToPDF';
+import { setTray } from './tray';
 
 let win: BrowserWindow | null;
 
@@ -47,6 +49,8 @@ const createWindow = async () => {
   win.on('closed', () => {
     win = null;
   });
+  exportToPDF(win);
+  setTray();
 };
 
 app.on('ready', createWindow);
