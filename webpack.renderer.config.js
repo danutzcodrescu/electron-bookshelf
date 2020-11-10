@@ -3,6 +3,7 @@ const { merge } = require('webpack-merge');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const ForkTsCheckerWebpackPlugin = require('fork-ts-checker-webpack-plugin');
 const path = require('path');
+const CopyPlugin = require('copy-webpack-plugin');
 
 const baseConfig = require('./webpack.base.config');
 
@@ -49,6 +50,9 @@ module.exports = merge(baseConfig, {
     new HtmlWebpackPlugin({ template: path.resolve(__dirname, 'src/renderer/index.html') }),
     new webpack.DefinePlugin({
       'process.env.NODE_ENV': JSON.stringify(process.env.NODE_ENV || 'development'),
+    }),
+    new CopyPlugin({
+      patterns: [{ from: path.resolve(__dirname, 'static/'), to: path.resolve(__dirname, 'dist', 'static') }],
     }),
   ],
 });
