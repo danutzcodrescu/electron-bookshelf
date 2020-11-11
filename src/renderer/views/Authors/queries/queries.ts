@@ -55,13 +55,21 @@ export const useAuthors = () => {
   });
 };
 
-export function useSearchForAuthors() {
+export function useSearchForAuthors(fn?: any) {
   return useMutation(async (name: string) => {
-    const { authors } = await request<SearchForAuthorsQuery, SearchForAuthorsQueryVariables>(
-      API_ENDPOINT,
-      searchAuthorsQuery,
-      { name: `%${name}%` },
-    );
-    return authors;
+    try {
+      const { authors } = await request<SearchForAuthorsQuery, SearchForAuthorsQueryVariables>(
+        API_ENDPOINT,
+        searchAuthorsQuery,
+        { name: `%${name}%` },
+      );
+      return authors;
+    } catch (e) {
+      if (fn && e.message.includes('Network request failed')) {
+        const data = await fn('authors', name);
+        return data;
+      }
+      throw new Error(e);
+    }
   });
 }

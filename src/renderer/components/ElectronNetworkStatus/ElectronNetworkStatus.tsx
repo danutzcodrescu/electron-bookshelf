@@ -3,6 +3,7 @@ import * as React from 'react';
 import { InsertAuthorMutationVariables, InsertBookMutationVariables } from 'src/renderer/generated/graphql';
 import { useInsertAuthors } from 'views/Authors/queries/mutations';
 import { useInsertBooks } from 'views/Books/queries/mutations';
+import { useQueryCache } from 'react-query';
 import { saveDataLocally } from '../../utils/save-request';
 import { SAVE_DATA, SET_NETWORK_STATUS } from '../../../events';
 import { useNetworkStatus } from '../../context/network-status';
@@ -16,9 +17,14 @@ export function ElectronNetworkStatus({ children }: Props) {
   const networkStatus = useNetworkStatus();
   const [insertAuthors] = useInsertAuthors();
   const [insertBooks] = useInsertBooks();
+  const cache = useQueryCache();
 
   React.useEffect(() => {
-    ipcRenderer.send(SET_NETWORK_STATUS, networkStatus);
+    ipcRenderer.send(
+      SET_NETWORK_STATUS,
+      networkStatus,
+      !networkStatus ? cache.getQueryData('books') || cache.getQueryData('authors-list') : undefined,
+    );
   }, [networkStatus]);
 
   useInsertOfflineData(networkStatus, insertBooks, insertAuthors);

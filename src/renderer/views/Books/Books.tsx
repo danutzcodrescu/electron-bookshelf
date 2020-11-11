@@ -1,6 +1,7 @@
 import * as React from 'react';
 import { Create } from 'components/Create/Create';
 import { ExportToPDFIcon } from 'components/ExportToPDFIcon/ExportToPDFIcon';
+import { offlineSearch } from 'components/ElectronNetworkStatus/utils/offlineSearch';
 import { BookDetailsFragment } from '../../generated/graphql';
 import { useBooks, useSearchForBooks } from './queries/queries';
 import { Search } from './components/Search';
@@ -9,7 +10,7 @@ import { BooksList } from './components/BooksList';
 export const Books = () => {
   const [books, setBooks] = React.useState<BookDetailsFragment[]>([]);
   const { data, error, isFetching } = useBooks();
-  const [mutate, { data: searchResults, isLoading, error: searchError }] = useSearchForBooks();
+  const [mutate, { data: searchResults, isLoading, error: searchError }] = useSearchForBooks(offlineSearch);
 
   function reset() {
     setBooks(data || []);

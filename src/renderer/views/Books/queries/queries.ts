@@ -1,4 +1,5 @@
 /* eslint-disable camelcase */
+import { offlineSearch } from 'components/ElectronNetworkStatus/utils/offlineSearch';
 import { gql, request } from 'graphql-request';
 import { useMutation, useQuery } from 'react-query';
 import {
@@ -6,9 +7,6 @@ import {
   SearchForBooksQueryVariables,
   GetBooksQuery,
   GetAuthorsQuery,
-  InsertBookMutation,
-  InsertBookMutationVariables,
-  Books_Insert_Input,
 } from 'src/renderer/generated/graphql';
 import { API_ENDPOINT } from '../../../../constants';
 
@@ -62,12 +60,20 @@ export function useBooks() {
   });
 }
 
-export function useSearchForBooks() {
+export function useSearchForBooks(fn?: any) {
   return useMutation(async (title: string) => {
-    const { books } = await request<SearchForBooksQuery, SearchForBooksQueryVariables>(API_ENDPOINT, searchForBooks, {
-      title: `%${title}%`,
-    });
-    return books;
+    try {
+      const { books } = await request<SearchForBooksQuery, SearchForBooksQueryVariables>(API_ENDPOINT, searchForBooks, {
+        title: `%${title}%`,
+      });
+      return books;
+    } catch (e) {
+      if (fn && e.message.includes('Network request failed')) {
+        const data = await fn('books', title);
+        return data;
+      }
+      throw new Error(e);
+    }
   });
 }
 
