@@ -53,12 +53,14 @@ const createWindow = async () => {
     win = null;
   });
   exportToPDF(win);
-  setTray();
+  const { tray, contextMenu } = setTray(win);
   offlineFunctionality(win);
-  if (process.env.NODE_ENV === 'production') checkForUpdates();
+  if (process.env.NODE_ENV === 'production') checkForUpdates(tray, contextMenu);
 };
 
 app.on('ready', () => {
+  // for windows 10 notifications
+  app.setAppUserModelId(process.execPath);
   createWindow();
   bootstrap();
 });
