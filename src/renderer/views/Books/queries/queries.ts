@@ -55,14 +55,6 @@ const getAuthorsQuery = gql`
   }
 `;
 
-const insertBookMutation = gql`
-  mutation insertBook($obj: books_insert_input!) {
-    insert_books_one(object: $obj) {
-      id
-    }
-  }
-`;
-
 export function useBooks() {
   return useQuery('books', async () => {
     const { books } = await request<GetBooksQuery>(API_ENDPOINT, getBooksQuery);
@@ -83,18 +75,5 @@ export function useGetAuthors() {
   return useQuery('authors', async () => {
     const { authors } = await request<GetAuthorsQuery>(API_ENDPOINT, getAuthorsQuery);
     return authors;
-  });
-}
-
-export function useInsertBook() {
-  return useMutation(async (obj: Books_Insert_Input) => {
-    const { insert_books_one } = await request<InsertBookMutation, InsertBookMutationVariables>(
-      API_ENDPOINT,
-      insertBookMutation,
-      {
-        obj,
-      },
-    );
-    return insert_books_one;
   });
 }

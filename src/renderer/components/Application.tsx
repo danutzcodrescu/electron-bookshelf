@@ -10,8 +10,10 @@ import { Authors } from 'views/Authors/Authors';
 import { ExportToPDF } from 'views/export/ExportToPDF';
 import { theme } from '../theme/index';
 import { Layout } from './Layout/Layout';
+import { NetworkStatusProvider } from '../context/network-status';
+import { ElectronNetworkStatus } from './ElectronNetworkStatus/ElectronNetworkStatus';
 
-const queryCache = new QueryCache({ defaultConfig: { queries: { refetchOnWindowFocus: false } } });
+const queryCache = new QueryCache({ defaultConfig: { queries: { refetchOnWindowFocus: false, retry: 0 } } });
 
 const Application = () => (
   <>
@@ -19,18 +21,23 @@ const Application = () => (
     <NoSsr />
     <ReactQueryCacheProvider queryCache={queryCache}>
       <ThemeProvider theme={theme}>
-        <HashRouter>
-          <Switch>
-            <Route path="/welcome" component={Welcome} />
-            <Route path="/export" component={ExportToPDF} />
-            <Layout>
-              <Route path="/books" exact component={Books} />
-              <Route path="/books/new" component={NewBook} />
-              <Route path="/authors" exact component={Authors} />
-              <Route path="/authors/new" component={NewAuthor} />
-            </Layout>
-          </Switch>
-        </HashRouter>
+        <NetworkStatusProvider>
+          {/* @ts-ignore */}
+          <ElectronNetworkStatus>
+            <HashRouter>
+              <Switch>
+                <Route path="/welcome" component={Welcome} />
+                <Route path="/export" component={ExportToPDF} />
+                <Layout>
+                  <Route path="/books" exact component={Books} />
+                  <Route path="/books/new" component={NewBook} />
+                  <Route path="/authors" exact component={Authors} />
+                  <Route path="/authors/new" component={NewAuthor} />
+                </Layout>
+              </Switch>
+            </HashRouter>
+          </ElectronNetworkStatus>
+        </NetworkStatusProvider>
       </ThemeProvider>
     </ReactQueryCacheProvider>
   </>

@@ -12,11 +12,11 @@ export function Authors() {
   const [mutate, { data: searchResults, isLoading, error: searchError }] = useSearchForAuthors();
 
   function reset() {
-    setAuthors(data || []);
+    setAuthors((data as any) || []);
   }
 
   React.useEffect(() => {
-    setAuthors(data || []);
+    setAuthors((data as any) || []);
   }, [data]);
 
   React.useEffect(() => {

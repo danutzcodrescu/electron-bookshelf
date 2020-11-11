@@ -39,7 +39,7 @@ export const AuthorsList = ({ authors }: Props) => {
               </Typography>
 
               {author.books.map((book, index, array) => (
-                <Box key={book.id} display="flex" mb={1} flexWrap="wrap">
+                <Box key={book.id || index} display="flex" mb={1} flexWrap="wrap">
                   <Box
                     component="img"
                     // @ts-ignore

@@ -2,7 +2,8 @@ import * as React from 'react';
 import { Box, Button, Grid, MenuItem, TextField, Theme } from '@material-ui/core';
 import { useForm, Controller } from 'react-hook-form';
 import { useHistory } from 'react-router-dom';
-import { useGetAuthors, useInsertBook } from './queries/queries';
+import { useGetAuthors } from './queries/queries';
+import { useInsertBook } from './queries/mutations';
 
 export const NewBook = () => {
   const { register, handleSubmit, control } = useForm({
@@ -56,11 +57,13 @@ export const NewBook = () => {
                   <MenuItem disabled value="author">
                     Author
                   </MenuItem>
-                  {data!.map((elem: any) => (
-                    <MenuItem key={elem.id} value={elem.id}>
-                      {elem.name}
-                    </MenuItem>
-                  ))}
+                  {data
+                    ?.filter((author: any) => author.id)
+                    .map((elem: any) => (
+                      <MenuItem key={elem.id} value={elem.id}>
+                        {elem.name}
+                      </MenuItem>
+                    ))}
                 </TextField>
               )}
             />

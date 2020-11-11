@@ -12,6 +12,7 @@ module.exports = [
     entry: {
       main: './src/main/main.ts',
     },
+    externals: { 'aws-sdk': 'aws-sdk' },
     module: {
       rules: [
         {
@@ -23,7 +24,11 @@ module.exports = [
               cacheDirectory: true,
               babelrc: false,
               presets: [['@babel/preset-env', { targets: { node: 'current' } }], '@babel/preset-typescript'],
-              plugins: ['@babel/plugin-proposal-optional-chaining'],
+              plugins: [
+                ['@babel/plugin-proposal-decorators', { legacy: true }],
+                ['@babel/plugin-proposal-class-properties', { loose: true }],
+                '@babel/plugin-proposal-optional-chaining',
+              ],
             },
           },
         },

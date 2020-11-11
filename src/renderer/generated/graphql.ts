@@ -1419,6 +1419,18 @@ export type InsertAuthorMutation = { __typename?: 'mutation_root' } & {
   insert_authors_one?: Maybe<{ __typename?: 'authors' } & Pick<Authors, 'id'>>;
 };
 
+export type InsertAuthorsMutationVariables = Exact<{
+  objects: Array<Authors_Insert_Input>;
+}>;
+
+export type InsertAuthorsMutation = { __typename?: 'mutation_root' } & {
+  insert_authors?: Maybe<
+    { __typename?: 'authors_mutation_response' } & {
+      returning: Array<{ __typename?: 'authors' } & Pick<Authors, 'id' | 'name'>>;
+    }
+  >;
+};
+
 export type AuthorDetailsFragment = { __typename?: 'authors' } & Pick<Authors, 'id' | 'name'> & {
     books: Array<
       { __typename?: 'books' } & Pick<Books, 'id' | 'title' | 'pages' | 'genre' | 'description' | 'image_url'>
@@ -1437,6 +1449,26 @@ export type SearchForAuthorsQueryVariables = Exact<{
 
 export type SearchForAuthorsQuery = { __typename?: 'query_root' } & {
   authors: Array<{ __typename?: 'authors' } & AuthorDetailsFragment>;
+};
+
+export type InsertBookMutationVariables = Exact<{
+  obj: Books_Insert_Input;
+}>;
+
+export type InsertBookMutation = { __typename?: 'mutation_root' } & {
+  insert_books_one?: Maybe<{ __typename?: 'books' } & Pick<Books, 'id'>>;
+};
+
+export type InsertBooksMutationVariables = Exact<{
+  objects: Array<Books_Insert_Input>;
+}>;
+
+export type InsertBooksMutation = { __typename?: 'mutation_root' } & {
+  insert_books?: Maybe<
+    { __typename?: 'books_mutation_response' } & {
+      returning: Array<{ __typename?: 'books' } & Pick<Books, 'id' | 'title'>>;
+    }
+  >;
 };
 
 export type BookDetailsFragment = { __typename?: 'books' } & Pick<
@@ -1462,12 +1494,4 @@ export type GetAuthorsQueryVariables = Exact<{ [key: string]: never }>;
 
 export type GetAuthorsQuery = { __typename?: 'query_root' } & {
   authors: Array<{ __typename?: 'authors' } & Pick<Authors, 'id' | 'name'>>;
-};
-
-export type InsertBookMutationVariables = Exact<{
-  obj: Books_Insert_Input;
-}>;
-
-export type InsertBookMutation = { __typename?: 'mutation_root' } & {
-  insert_books_one?: Maybe<{ __typename?: 'books' } & Pick<Books, 'id'>>;
 };

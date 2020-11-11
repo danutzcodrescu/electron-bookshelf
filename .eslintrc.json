@@ -43,6 +43,7 @@
 
   "rules": {
     "global-require": 0,
+    "camelcase": 0,
     "import/prefer-default-export": 0,
     "import/no-useless-path-segments": 1,
     "import/no-unresolved": 0,
@@ -53,6 +54,7 @@
     "import/namespace": 0,
     "import/extensions": 0,
     "import/named": 0,
+    "import/no-cycle": 0,
     "react/jsx-wrap-multilines": [
       2,
       {

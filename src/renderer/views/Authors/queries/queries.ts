@@ -1,7 +1,8 @@
 import request, { gql } from 'graphql-request';
-import { useMutation, useQuery } from 'react-query';
+import { useMutation, useQuery, useQueryCache } from 'react-query';
 import { API_ENDPOINT } from '../../../../constants';
 import {
+  AuthorDetailsFragment as Details,
   GetAuthorsDetailsQuery,
   SearchForAuthorsQuery,
   SearchForAuthorsQueryVariables,
@@ -41,9 +42,16 @@ const searchAuthorsQuery = gql`
 `;
 
 export const useAuthors = () => {
+  const cache = useQueryCache();
   return useQuery('authors-list', async () => {
-    const { authors } = await request<GetAuthorsDetailsQuery>(API_ENDPOINT, authorsQuery);
-    return authors;
+    try {
+      const { authors } = await request<GetAuthorsDetailsQuery>(API_ENDPOINT, authorsQuery);
+      return authors;
+    } catch (e) {
+      if (e.message.includes('Network ')) {
+        return cache.getQueryData<Details>('authors-list');
+      }
+    }
   });
 };
 

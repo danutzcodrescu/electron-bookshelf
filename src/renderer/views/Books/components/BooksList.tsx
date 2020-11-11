@@ -46,7 +46,7 @@ export function BooksList({ books }: Props) {
                   </Box>
                   <Box clone component="span" fontSize="0.9rem">
                     <Typography component="span" color="textSecondary">
-                      by {book.author.name}
+                      by {book.author?.name}
                     </Typography>
                   </Box>
 

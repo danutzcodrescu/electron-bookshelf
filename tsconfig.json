@@ -55,6 +55,9 @@
     // "types": [],                           /* Type declaration files to be included in compilation. */
     "allowSyntheticDefaultImports": true,
     "importsNotUsedAsValues": "preserve",
+    "emitDecoratorMetadata": true,
+    "experimentalDecorators": true,
+    "strictPropertyInitialization": false,
     "paths": {
       "components/*": ["./src/renderer/components/*"],
       "views/*": ["./src/renderer/views/*"]
