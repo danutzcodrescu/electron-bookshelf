@@ -14,7 +14,7 @@ export async function bootstrap() {
         process.env.NODE_ENV === 'development'
           ? path.resolve(__dirname, '../db', 'database.sqlite')
           : path.resolve(app.getPath('documents'), 'bookshelf', 'db', 'database.sqlite'),
-      entities: [Author, Book],
+      entities: [Book, Author],
     });
   } catch (e) {
     console.log(e);

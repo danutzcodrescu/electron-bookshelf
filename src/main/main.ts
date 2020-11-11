@@ -1,6 +1,7 @@
 import { app, BrowserWindow } from 'electron';
 import * as path from 'path';
 import * as url from 'url';
+import { checkForUpdates } from './autoUpdater';
 import { bootstrap } from './db';
 import { exportToPDF } from './exportToPDF';
 import { offlineFunctionality } from './network-status';
@@ -54,6 +55,7 @@ const createWindow = async () => {
   exportToPDF(win);
   setTray();
   offlineFunctionality(win);
+  if (process.env.NODE_ENV === 'production') checkForUpdates();
 };
 
 app.on('ready', () => {

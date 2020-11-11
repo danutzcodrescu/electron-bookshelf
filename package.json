@@ -1,5 +1,6 @@
 {
   "name": "electron-bookshelf",
+  "productName": "Electron Bookshelf",
   "version": "1.0.0",
   "description": "",
   "main": "./dist/main.js",
@@ -18,6 +19,7 @@
     "test:e2e": "jest '(\\/test\\/e2e/).*'",
     "pack": "npm run build && electron-builder --dir",
     "dist": "npm run build && electron-builder",
+    "release": "electron-builder -p always",
     "postinstall": "electron-builder install-app-deps",
     "schema-types": "cross-env DEBUG=1 graphql-codegen"
   },
@@ -33,7 +35,7 @@
     ]
   },
   "build": {
-    "productName": "Electron bookshelf",
+    "productName": "Electron Bookshelf",
     "appId": "org.your.productname",
     "mac": {
       "category": "your.app.category.type"
@@ -51,6 +53,10 @@
     },
     "win": {
       "target": "nsis"
+    },
+    "publish": {
+      "provider": "github",
+      "releaseType": "release"
     }
   },
   "author": {
@@ -119,6 +125,7 @@
     "@material-ui/icons": "^4.9.1",
     "@material-ui/lab": "^4.0.0-alpha.56",
     "date-fns": "^2.16.1",
+    "electron-updater": "^4.3.5",
     "graphql": "^15.4.0",
     "graphql-request": "^3.3.0",
     "idb": "^5.0.7",

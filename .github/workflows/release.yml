@@ -1,0 +1,38 @@
+name: Release for Electron bookshelf
+on:
+  push:
+    tags:
+      - v*
+jobs:
+  release:
+    name: release-build
+    strategy:
+      matrix:
+        os: [macos-latest, windows-latest]
+      fail-fast: false
+    runs-on: ${{ matrix.os }}
+    env:
+      GH_TOKEN: ${{secrets.GH_TOKEN}}
+      # SENTRY_AUTH_TOKEN: ${{secrets.SENTRY_AUTH_TOKEN}}
+      # SENTRY_ORG: ${{secrets.SENTRY_ORG}}
+      # SENTRY_PROJECT: ${{secrets.SENTRY_PROJECT}}
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-node@v1
+        with:
+          node-version: '14.x'
+      - name: Get yarn cache directory path
+        id: npm-cache
+        run: echo "::set-output name=dir::$(npm config get cache)"
+      - uses: actions/cache@v1
+        with:
+          path: ${{ steps.npm-cache.outputs.dir }}
+          key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
+          restore-keys: |
+            ${{ runner.os }}-node-
+      - name: Install dependencies
+        run: npm install
+      - name: Build installer
+        run: npm run dist
+      - name: Publish
+        run: npm run release      
