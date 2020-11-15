@@ -1,5 +1,7 @@
-import { Menu, Tray, Notification } from 'electron';
+import { Menu, Tray, Notification, app } from 'electron';
 import { autoUpdater } from 'electron-updater';
+import log from 'electron-log';
+import { iconPath } from './tray';
 
 interface ProgressInfo {
   bytesPerSecond: string;
@@ -14,11 +16,11 @@ export async function checkForUpdates(tray: Tray, menu: Menu) {
   const restartItem = menu.items.find((menuItem) => menuItem.id === 'restart');
 
   autoUpdater.on('checking-for-update', () => {
-    console.log('Checking for update...');
+    log.info('Checking for update...');
   });
 
   autoUpdater.on('update-available', () => {
-    console.log('Update available.');
+    log.info('Update available.');
     if (item) {
       item.enabled = false;
       item.label = 'Downloading update...';
@@ -27,31 +29,41 @@ export async function checkForUpdates(tray: Tray, menu: Menu) {
     }
   });
   autoUpdater.on('update-not-available', () => {
-    console.log('Update not available.');
+    log.info('Update not available.');
   });
 
   autoUpdater.on('error', (err) => {
-    console.log(`Error in auto-updater. ${err}`);
+    log.info(`Error in auto-updater. ${err}`);
   });
 
   autoUpdater.on('update-downloaded', () => {
-    console.log('Update succesfully downloaded');
+    log.info('Update succesfully downloaded');
     if (item) {
       item.visible = false;
     }
     if (restartItem) {
       restartItem.visible = true;
     }
-    tray.displayBalloon({
-      iconType: 'info',
-      content: 'Please restart the app to apply the update',
-      title: 'Complete update',
-    });
-    new Notification({ title: 'Complete the update', body: 'Please restart the app to apply the update' }).show();
+    if (process.platform === 'win32') {
+      tray.displayBalloon({
+        iconType: 'info',
+        content: 'Please restart the app to apply the update',
+        title: 'Complete update',
+      });
+    } else {
+      new Notification({
+        title: 'Complete the update',
+        body: 'Please restart the app to apply the update',
+        icon: iconPath,
+      }).show();
+      if (process.platform === 'darwin') {
+        app.dock.setBadge('.');
+      }
+    }
   });
 
   autoUpdater.on('download-progress', (progressObj: ProgressInfo) => {
-    console.log(
+    log.info(
       `Downloaded ${progressObj.percent}% -> ${parseFloat(progressObj.transferred) * Math.pow(10, 6)}/${
         parseFloat(progressObj.total) * Math.pow(10, 6)
       } at ${parseFloat(progressObj.bytesPerSecond) * Math.pow(10, 6)}`,

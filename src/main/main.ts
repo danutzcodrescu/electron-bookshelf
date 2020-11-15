@@ -1,11 +1,20 @@
 import { app, BrowserWindow } from 'electron';
 import * as path from 'path';
 import * as url from 'url';
+import log from 'electron-log';
+import Store from 'electron-store';
+import debounce from 'lodash.debounce';
 import { checkForUpdates } from './autoUpdater';
 import { bootstrap } from './db';
 import { exportToPDF } from './exportToPDF';
 import { offlineFunctionality } from './network-status';
 import { setTray } from './tray';
+
+const store = new Store();
+
+if (process.env.NODE_ENV === 'development') {
+  log.transports.file.level = false;
+}
 
 let win: BrowserWindow | null;
 
@@ -21,10 +30,10 @@ const createWindow = async () => {
   if (process.env.NODE_ENV !== 'production') {
     await installExtensions();
   }
-
+  const sizes: any = store.get('size');
   win = new BrowserWindow({
-    width: 800,
-    height: 600,
+    width: sizes?.[0] || 800,
+    height: sizes?.[1] || 600,
     webPreferences: { nodeIntegration: true, preload: path.join(__dirname, 'inject.js') },
   });
 
@@ -52,17 +61,30 @@ const createWindow = async () => {
   win.on('closed', () => {
     win = null;
   });
+
   exportToPDF(win);
   const { tray, contextMenu } = setTray(win);
   offlineFunctionality(win);
   if (process.env.NODE_ENV === 'production') checkForUpdates(tray, contextMenu);
+
+  if (process.platform === 'win32') {
+    // for windows 10 notifications
+    app.setAppUserModelId(
+      process.env.NODE_ENV === 'development' ? process.execPath : process.env.npm_package_build_appId!,
+    );
+  }
+
+  win.on(
+    'resize',
+    debounce((e: any) => {
+      store.set('size', (e.sender as BrowserWindow).getSize());
+    }, 500),
+  );
 };
 
-app.on('ready', () => {
-  // for windows 10 notifications
-  app.setAppUserModelId(process.execPath);
+app.on('ready', async () => {
+  await bootstrap();
   createWindow();
-  bootstrap();
 });
 
 app.on('window-all-closed', () => {
@@ -75,4 +97,11 @@ app.on('activate', () => {
   if (win === null) {
     createWindow();
   }
+});
+
+app.on('web-contents-created', (_, contents) => {
+  // security feature -> prevent navigation to other domains
+  contents.on('will-navigate', (e) => {
+    e.preventDefault();
+  });
 });

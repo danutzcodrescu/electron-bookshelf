@@ -1,7 +1,7 @@
 {
   "name": "electron-bookshelf",
   "productName": "Electron Bookshelf",
-  "version": "1.1.0",
+  "version": "1.2.0",
   "description": "",
   "main": "./dist/main.js",
   "scripts": {
@@ -36,9 +36,18 @@
   },
   "build": {
     "productName": "Electron Bookshelf",
-    "appId": "org.your.productname",
+    "appId": "org.bookshelf.app",
     "mac": {
-      "category": "your.app.category.type"
+      "category": "your.app.category.type",
+      "extraResources": [
+        {
+          "from": "./preconfigMac",
+          "to": "preconfig",
+          "filter": [
+            "*.sh"
+          ]
+        }
+      ]
     },
     "directories": {
       "output": "release"
@@ -53,6 +62,12 @@
     },
     "win": {
       "target": "nsis"
+    },
+    "nsis": {
+      "deleteAppDataOnUninstall": true,
+      "perMachine": true,
+      "runAfterFinish": false,
+      "oneClick": false
     },
     "publish": {
       "provider": "github",
@@ -76,6 +91,7 @@
     "@graphql-codegen/typescript-operations": "^1.17.9",
     "@pmmmwh/react-refresh-webpack-plugin": "^0.4.3",
     "@types/electron-devtools-installer": "^2.2.0",
+    "@types/lodash.debounce": "^4.0.6",
     "@types/ramda": "^0.27.32",
     "@types/react": "^16.9.56",
     "@types/react-dom": "^16.9.9",
@@ -125,10 +141,13 @@
     "@material-ui/icons": "^4.9.1",
     "@material-ui/lab": "^4.0.0-alpha.56",
     "date-fns": "^2.16.1",
+    "electron-log": "^4.3.0",
+    "electron-store": "^6.0.1",
     "electron-updater": "^4.3.5",
     "graphql": "^15.4.0",
     "graphql-request": "^3.3.0",
     "idb": "^5.0.7",
+    "lodash.debounce": "^4.0.8",
     "ramda": "^0.27.1",
     "react": "^17.0.1",
     "react-dom": "^17.0.1",

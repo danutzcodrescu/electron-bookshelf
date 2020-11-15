@@ -3,6 +3,7 @@ import fs from 'fs';
 import path from 'path';
 import url from 'url';
 import { format } from 'date-fns';
+import log from 'electron-log';
 import { DATA_RENDERED, EXPORT_TO_PDF, EXPORT_TO_PDF_COMPLETED, LOAD_DATA_FOR_PDF } from '../events';
 import { AuthorDetailsFragment, BookDetailsFragment } from '../renderer/generated/graphql';
 
@@ -70,10 +71,10 @@ export function exportToPDF(win: BrowserWindow) {
       try {
         const buffer = await exportWindow?.webContents.printToPDF({ pageSize: 'A4', printBackground: true });
         fs.writeFileSync(resp.filePath, buffer!);
-        console.log(`PDF: created succesfully`);
+        log.info(`PDF: created succesfully`);
         closePDFWindow(exportWindow, win, resp.filePath, 'success');
       } catch (e) {
-        console.log(`PDF: Error creat pdf: ${JSON.stringify(e)}`);
+        log.info(`PDF: Error creat pdf: ${JSON.stringify(e)}`);
         closePDFWindow(exportWindow, win, resp.filePath, 'error');
       }
     } else {

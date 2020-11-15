@@ -2,6 +2,7 @@ import { BrowserWindow, ipcMain, session } from 'electron';
 import { StringDecoder } from 'string_decoder';
 import { omit, uniqBy } from 'ramda';
 import { getManager } from 'typeorm';
+import log from 'electron-log';
 import { Authors, Books } from '../renderer/generated/graphql';
 import { API_ENDPOINT } from '../constants';
 import { SET_NETWORK_STATUS, SAVE_DATA, OFFLINE_SEARCH } from '../events';
@@ -44,7 +45,7 @@ async function setOfflineData({ books, authors }: { books: Books[]; authors: Aut
       .values(books as any)
       .execute();
   } catch (e) {
-    console.log(e);
+    log.error(e);
   }
 }
 
@@ -59,7 +60,7 @@ async function fetchOfflineData(type: 'books' | 'authors', query: string) {
         .getMany();
       return books;
     } catch (e) {
-      console.log(e);
+      log.error(e);
     }
   }
   try {
@@ -71,7 +72,7 @@ async function fetchOfflineData(type: 'books' | 'authors', query: string) {
       .getMany();
     return authors;
   } catch (e) {
-    console.log(e);
+    log.error(e);
   }
 }
 
@@ -87,7 +88,7 @@ export function offlineFunctionality(win: BrowserWindow) {
         await getManager().createQueryBuilder().delete().from(Author).execute();
         await getManager().createQueryBuilder().delete().from(Book).execute();
       } catch (e) {
-        console.log(e);
+        log.error(e);
       }
     }
   });

@@ -1,6 +1,7 @@
 import { createConnection } from 'typeorm';
 import path from 'path';
 import { app } from 'electron';
+import log from 'electron-log';
 import { Author } from './models/Author';
 import { Book } from './models/Book';
 
@@ -17,6 +18,6 @@ export async function bootstrap() {
       entities: [Book, Author],
     });
   } catch (e) {
-    console.log(e);
+    log.error(e);
   }
 }
