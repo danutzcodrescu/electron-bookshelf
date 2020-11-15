@@ -37,5 +37,5 @@ npm install
 #### How to do an automatic deployment
 
 - change the version in package.json
-- use the same version when creating a tag `git tag v-${version}`
-- push the tag `git push origin v-${version}`
+- use the same version when creating a tag `git tag v${version}`
+- push the tag `git push origin v${version}`
