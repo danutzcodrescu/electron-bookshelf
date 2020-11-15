@@ -1,0 +1,93 @@
+{
+  "version": 2,
+  "tables": [
+    {
+      "table": {
+        "schema": "public",
+        "name": "authors"
+      },
+      "array_relationships": [
+        {
+          "name": "books",
+          "using": {
+            "foreign_key_constraint_on": {
+              "column": "author_id",
+              "table": {
+                "schema": "public",
+                "name": "books"
+              }
+            }
+          }
+        }
+      ]
+    },
+    {
+      "table": {
+        "schema": "public",
+        "name": "books"
+      },
+      "object_relationships": [
+        {
+          "name": "author",
+          "using": {
+            "foreign_key_constraint_on": "author_id"
+          }
+        }
+      ],
+      "array_relationships": [
+        {
+          "name": "shelves",
+          "using": {
+            "foreign_key_constraint_on": {
+              "column": "book_id",
+              "table": {
+                "schema": "public",
+                "name": "shelves"
+              }
+            }
+          }
+        }
+      ]
+    },
+    {
+      "table": {
+        "schema": "public",
+        "name": "shelves"
+      },
+      "object_relationships": [
+        {
+          "name": "book",
+          "using": {
+            "foreign_key_constraint_on": "book_id"
+          }
+        },
+        {
+          "name": "user",
+          "using": {
+            "foreign_key_constraint_on": "user_id"
+          }
+        }
+      ]
+    },
+    {
+      "table": {
+        "schema": "public",
+        "name": "users"
+      },
+      "array_relationships": [
+        {
+          "name": "shelves",
+          "using": {
+            "foreign_key_constraint_on": {
+              "column": "user_id",
+              "table": {
+                "schema": "public",
+                "name": "shelves"
+              }
+            }
+          }
+        }
+      ]
+    }
+  ]
+}
