@@ -22,21 +22,21 @@ const Application = () => (
     <ReactQueryCacheProvider queryCache={queryCache}>
       <ThemeProvider theme={theme}>
         <NetworkStatusProvider>
-          {/* @ts-ignore */}
-          <ElectronNetworkStatus>
-            <HashRouter>
-              <Switch>
-                <Route path="/welcome" component={Welcome} />
-                <Route path="/export" component={ExportToPDF} />
+          <HashRouter>
+            <Switch>
+              <Route path="/welcome" component={Welcome} />
+              <Route path="/export" component={ExportToPDF} />
+              {/* @ts-ignore */}
+              <ElectronNetworkStatus>
                 <Layout>
                   <Route path="/books" exact component={Books} />
                   <Route path="/books/new" component={NewBook} />
                   <Route path="/authors" exact component={Authors} />
                   <Route path="/authors/new" component={NewAuthor} />
                 </Layout>
-              </Switch>
-            </HashRouter>
-          </ElectronNetworkStatus>
+              </ElectronNetworkStatus>
+            </Switch>
+          </HashRouter>
         </NetworkStatusProvider>
       </ThemeProvider>
     </ReactQueryCacheProvider>

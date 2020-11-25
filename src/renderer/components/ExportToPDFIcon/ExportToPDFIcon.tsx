@@ -78,7 +78,7 @@ export function ExportToPDFIcon({ data }: Props) {
         open={Boolean(details?.type)}
         anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}
         message={details?.type === 'success' ? 'PDF created successfully!' : 'There was an error in creating the PDF'}
-        {...(details?.path ? { action: <Button onClick={() => shell.openExternal(details.path!)}>Open</Button> } : {})}
+        {...(details?.path ? { action: <Button onClick={() => shell.openPath(details.path!)}>Open</Button> } : {})}
       />
     </>
   );
